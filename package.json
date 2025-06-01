@@ -17,5 +17,13 @@
   "bugs": {
     "url": "https://github.com/AngelBlackBlue/apiDeProductos/issues"
   },
-  "homepage": "https://github.com/AngelBlackBlue/apiDeProductos#readme"
+  "homepage": "https://github.com/AngelBlackBlue/apiDeProductos#readme",
+  "dependencies": {
+    "mysql2": "^3.14.1",
+    "reflect-metadata": "^0.2.2",
+    "typeorm": "^0.3.24"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.29"
+  }
 }
