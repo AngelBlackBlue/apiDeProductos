@@ -21,14 +21,9 @@
   },
   "homepage": "https://github.com/AngelBlackBlue/apiDeProductos#readme",
   "dependencies": {
-    "class-transformer": "^0.5.1",
-    "class-validator": "^0.14.2",
     "dotenv": "^16.5.0",
     "fastify": "^5.3.3",
-    "mysql2": "^3.14.1",
-    "pino-pretty": "^13.0.0",
-    "reflect-metadata": "^0.2.2",
-    "typeorm": "^0.3.24"
+    "pino-pretty": "^13.0.0"
   },
   "devDependencies": {
     "@types/node": "^22.15.29",
