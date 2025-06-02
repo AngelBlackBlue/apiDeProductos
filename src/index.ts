@@ -6,7 +6,7 @@ dotenv.config();
 
 const port = parseInt(process.env.PORT || "3000");
 
-async function initializeApp() {
+const initializeApp = async () => {
   try {
     await AppDataSource.initialize();
     console.log("Conexión a la base de datos establecida");

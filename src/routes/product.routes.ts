@@ -1,7 +1,10 @@
 import { FastifyInstance } from "fastify";
+import { getProducts, getProductById, createProduct } from "../controllers/product.contoller";
 
-export default async function productRoutes(fastify: FastifyInstance) {
-  fastify.get("/products", async (request, replay) => {
-    return replay.send("Hola mundo");
-  });
+
+export const productRoutes = async (fastify: FastifyInstance) => {
+  fastify.get("/products", getProducts );
+  fastify.get("/products/:id", getProductById );
+  fastify.post("/products", createProduct);
+
 }
