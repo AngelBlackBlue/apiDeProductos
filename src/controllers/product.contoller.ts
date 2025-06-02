@@ -35,16 +35,59 @@ export const getProductById = async (
   }
 };
 
-
 export const createProduct = async (
   request: FastifyRequest,
   replay: FastifyReply
 ) => {
   try {
-    const { name, price } = request.body as {name: string, price: number } 
-    const product = await productRepository.save({ name, price});
+    const { name, price } = request.body as { name: string; price: number };
+    const product = await productRepository.save({ name, price });
 
     return replay.status(200).send(product);
+  } catch (error) {
+    console.error(error);
+    return replay.status(500).send({ message: "Server error", error });
+  }
+};
+
+export const updateProductById = async (
+  request: FastifyRequest,
+  replay: FastifyReply
+) => {
+  try {
+    const { id } = request.params as { id: string };
+    const body = request.body as { name: string; price: number };
+    let product = await productRepository.findOneBy({ id: parseInt(id) });
+    if (!product) {
+      return replay.status(400).send({ message: "Product not found" });
+    }
+
+    product = { ...product, ...body };
+
+    await productRepository.save(product);
+
+    return replay.status(201).send(product);
+  } catch (error) {
+    console.error(error);
+    return replay.status(500).send({ message: "Server error", error });
+  }
+};
+
+export const deleteProductById = async (
+  request: FastifyRequest,
+  replay: FastifyReply
+) => {
+  try {
+    const { id } = request.params as { id: string };
+    
+    const product = await productRepository.findOneBy({ id: parseInt(id) });
+    if (!product) {
+      return replay.status(400).send({ message: "Product not found" });
+    }
+
+    await productRepository.delete(product);
+
+    return replay.status(201).send({ message: "Product delete", product});
   } catch (error) {
     console.error(error);
     return replay.status(500).send({ message: "Server error", error });
