@@ -1,4 +1,5 @@
 import fastify from "fastify";
+import productRoutes from "./routes/product.routes";
 
 const app = fastify({
   logger: {
@@ -13,4 +14,7 @@ const app = fastify({
   },
 });
 
+app.register(productRoutes);
+
 export default app;
+
