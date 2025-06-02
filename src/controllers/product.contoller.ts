@@ -17,7 +17,7 @@ export const getProducts = async (
   }
 };
 
-export const getProductsById = async (
+export const getProductById = async (
   request: FastifyRequest,
   replay: FastifyReply
 ) => {
@@ -29,6 +29,22 @@ export const getProductsById = async (
     }
 
     return replay.status(201).send(product);
+  } catch (error) {
+    console.error(error);
+    return replay.status(500).send({ message: "Server error", error });
+  }
+};
+
+
+export const createProduct = async (
+  request: FastifyRequest,
+  replay: FastifyReply
+) => {
+  try {
+    const { name, price } = request.body as {name: string, price: number } 
+    const product = await productRepository.save({ name, price});
+
+    return replay.status(200).send(product);
   } catch (error) {
     console.error(error);
     return replay.status(500).send({ message: "Server error", error });
