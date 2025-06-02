@@ -1,4 +1,4 @@
-import  app  from "./app";
+import app from "./app";
 import * as dotenv from "dotenv";
 import { AppDataSource } from "./database/database";
 
@@ -11,7 +11,7 @@ async function initializeApp() {
     await AppDataSource.initialize();
     console.log("Conexión a la base de datos establecida");
 
-    await app.listen({port}, () => {
+    await app.listen({ port }, () => {
       console.log(`Servidor corriendo en http://localhost:${port}`);
     });
   } catch (error) {

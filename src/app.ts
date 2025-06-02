@@ -6,7 +6,7 @@ const app = fastify({
       target: "pino-pretty",
       options: {
         colorize: true,
-        translateTime: "SYS:dd/mm/yyyy HH:MM:ss (UTC-3)", 
+        translateTime: "SYS:dd/mm/yyyy HH:MM:ss (UTC-3)",
         ignore: "pid,hostname",
       },
     },
