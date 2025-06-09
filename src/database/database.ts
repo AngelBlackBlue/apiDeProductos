@@ -1,18 +1,16 @@
-import "reflect-metadata";
-import { DataSource } from "typeorm";
+import { Sequelize } from "sequelize";
 import * as dotenv from "dotenv";
-import { product } from "../entity/product";
 
 dotenv.config();
 
-export const AppDataSource = new DataSource({
-  type: "mysql",
-  host: process.env.DB_HOST,
-  port: parseInt(process.env.DB_PORT || "3307"),
-  username: process.env.DB_USERNAME,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
-  synchronize: true,
-  logging: false,
-  entities: [product],
-});
+export const sequelize = new Sequelize(
+  process.env.POSTGRES_DB as string,
+  process.env.POSTGRES_USER as string,
+  process.env.POSTGRES_PASSWORD as string,
+  {
+    host: process.env.DB_HOST,
+    port: parseInt(process.env.DB_PORT || "5432"),
+    dialect: "postgres",
+    logging: false,
+  }
+);

@@ -1,16 +1,14 @@
 import { FastifyReply, FastifyRequest } from "fastify";
-import { AppDataSource } from "../database/database";
-import { product } from "../entity/product";
+import { Product } from "../entity/product";
 
-const productRepository = AppDataSource.getRepository(product);
 
 export const getProducts = async (
   request: FastifyRequest,
   replay: FastifyReply
 ) => {
   try {
-    const products = await productRepository.find();
-    return replay.status(201).send(products);
+    const products = await Product.findAll();
+    return replay.status(200).send(products);
   } catch (error) {
     console.error(error);
     return replay.status(500).send({ message: "Server error", error });
@@ -23,12 +21,12 @@ export const getProductById = async (
 ) => {
   try {
     const { id } = request.params as { id: string };
-    const product = await productRepository.findOneBy({ id: parseInt(id) });
+    const product = await Product.findByPk(id);
     if (!product) {
       return replay.status(400).send({ message: "Product not found" });
     }
 
-    return replay.status(201).send(product);
+    return replay.status(200).send(product);
   } catch (error) {
     console.error(error);
     return replay.status(500).send({ message: "Server error", error });
@@ -41,9 +39,9 @@ export const createProduct = async (
 ) => {
   try {
     const { name, price } = request.body as { name: string; price: number };
-    const product = await productRepository.save({ name, price });
+    const product = await Product.create({ name, price });
 
-    return replay.status(200).send(product);
+    return replay.status(201).send(product);
   } catch (error) {
     console.error(error);
     return replay.status(500).send({ message: "Server error", error });
@@ -57,14 +55,13 @@ export const updateProductById = async (
   try {
     const { id } = request.params as { id: string };
     const body = request.body as { name: string; price: number };
-    let product = await productRepository.findOneBy({ id: parseInt(id) });
+    let product = await Product.findByPk(id);
     if (!product) {
       return replay.status(400).send({ message: "Product not found" });
     }
 
-    product = { ...product, ...body };
 
-    await productRepository.save(product);
+    await product.update(body);
 
     return replay.status(201).send(product);
   } catch (error) {
@@ -80,14 +77,14 @@ export const deleteProductById = async (
   try {
     const { id } = request.params as { id: string };
     
-    const product = await productRepository.findOneBy({ id: parseInt(id) });
+    const product = await Product.findByPk( id);
     if (!product) {
       return replay.status(400).send({ message: "Product not found" });
     }
 
-    await productRepository.delete(product);
+    await product.destroy();
 
-    return replay.status(201).send({ message: "Product delete", product});
+    return replay.status(200).send({ message: "Product delete", product});
   } catch (error) {
     console.error(error);
     return replay.status(500).send({ message: "Server error", error });
